@@ -25,20 +25,20 @@ module.exports.loop = function() {
         role == "harvester" && roleHarvester.run(creep)
         role == "upgrader" && roleUpgrader.run(creep)
         role == "builder" && roleBuilder.run(creep)
-        role == "repair" && roleRepairer.run(creep)
+        role == "repairer" && roleRepairer.run(creep)
     }
 
     // goal: set the minimum numbers of creeps required for each role
     const minimumNoOfHarvesters = 2
     const minimumNoOfUpgraders = 5
     const minimumNoOfBuilders = 2
-    const minimumNoOfRepairer = 1
+    const minimumNoOfRepairers = 1
 
     // currently active creeps for each role
     let currentHarvesters = countCreeps("harvester")
     let currentUpgraders = countCreeps("upgrader")
     let currentBuilders = countCreeps("builder")
-    let currentRepairer = countCreeps("repairer")
+    let currentRepairers = countCreeps("repairer")
 
     let energyCapacity = Game.spawns.Spawn1.room.energyCapacityAvailable
     let energyAvailable = Game.spawns.Spawn1.room.energyAvailable
@@ -58,7 +58,7 @@ module.exports.loop = function() {
         name = Game.spawns.Spawn1.createCustomCreep(energyCapacity, "upgrader")
     } else if (currentBuilders < minimumNoOfBuilders) {
         name = Game.spawns.Spawn1.createCustomCreep(energyCapacity, "builder")
-    } else if (currentRepairer < minimumNoOfRepairer) {
+    } else if (currentRepairers < minimumNoOfRepairers) {
         name = Game.spawns.Spawn1.createCustomCreep(energyCapacity, "repairer")
     } else {
         // default case: try to spawn upgraders
