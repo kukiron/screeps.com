@@ -4,10 +4,15 @@ const roleHarvester = require("role.harvester")
 const roleUpgrader = require("role.upgrader")
 const roleBuilder = require("role.builder")
 const roleRepairer = require("role.repairer")
+const roleLongDistanceHarvester = require("role.longDistanceHarvester")
 
 // _.sum will count the number of creeps for each role
 const countCreeps = creepRole =>
     _.sum(Game.creeps, c => c.memory.role == creepRole)
+
+// Room for harvesting
+const HOME = "E13N45"
+const TARGET = "E13N44"
 
 module.exports.loop = function() {
     // check for died creeps & delete the memory entry if not alive
@@ -26,19 +31,22 @@ module.exports.loop = function() {
         role == "upgrader" && roleUpgrader.run(creep)
         role == "builder" && roleBuilder.run(creep)
         role == "repairer" && roleRepairer.run(creep)
+        role == "longDistanceHarvester" && roleLongDistanceHarvester.run(creep)
     }
 
     // goal: set the minimum numbers of creeps required for each role
-    const minimumNoOfHarvesters = 2
-    const minimumNoOfUpgraders = 5
+    const minimumNoOfHarvesters = 1
+    const minimumNoOfUpgraders = 4
     const minimumNoOfBuilders = 2
     const minimumNoOfRepairers = 1
+    const minimumNoOfLongDistanceHarvesters = 1
 
     // currently active creeps for each role
     let currentHarvesters = countCreeps("harvester")
     let currentUpgraders = countCreeps("upgrader")
     let currentBuilders = countCreeps("builder")
     let currentRepairers = countCreeps("repairer")
+    let currentLongDistanceHarvesters = countCreeps("longDistanceHarvester")
 
     let energyCapacity = Game.spawns.Spawn1.room.energyCapacityAvailable
     let energyAvailable = Game.spawns.Spawn1.room.energyAvailable
@@ -56,6 +64,10 @@ module.exports.loop = function() {
         }
     } else if (currentUpgraders < minimumNoOfUpgraders) {
         name = Game.spawns.Spawn1.createCustomCreep(energyCapacity, "upgrader")
+    } else if (
+        currentLongDistanceHarvesters < minimumNoOfLongDistanceHarvesters
+    ) {
+        name = Game.spawns.Spawn1.createLongDistanceHarvester(HOME, TARGET, 0)
     } else if (currentBuilders < minimumNoOfBuilders) {
         name = Game.spawns.Spawn1.createCustomCreep(energyCapacity, "builder")
     } else if (currentRepairers < minimumNoOfRepairers) {
