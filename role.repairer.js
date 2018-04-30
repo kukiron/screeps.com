@@ -25,7 +25,7 @@ module.exports = {
                 roleBuilder.run(creep)
             }
         } else {
-            let source = creep.room.find(FIND_SOURCES)[0]
+            let source = creep.room.find(FIND_SOURCES)[1]
             creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
         }
     }

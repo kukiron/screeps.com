@@ -18,7 +18,10 @@ module.exports = {
         if (creep.memory.working == true) {
             // find closest spawn or extension which is not full
             let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: s => s.energy < s.energyCapacity
+                filter: s =>
+                    (s.structureType == STRUCTURE_SPAWN ||
+                        s.structureType == STRUCTURE_EXTENSION) &&
+                    s.energy < s.energyCapacity
             })
 
             // if we found one, try to transfer energy
@@ -28,7 +31,7 @@ module.exports = {
             }
         } else {
             // if creep is supposed to harvest energy from source find closest energy source
-            let source = creep.room.find(FIND_SOURCES)[0]
+            let source = creep.room.find(FIND_SOURCES)[1]
             // try to harvest energy, if the source is not in range move towards the source
             creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
         }
