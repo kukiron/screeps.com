@@ -12,14 +12,13 @@ module.exports = function() {
         return this.createCreep(body, undefined, { working: false, role })
     }
 
-    // create a new function for StructureSpawn
     StructureSpawn.prototype.createLongDistanceHarvester = function(
         home,
         target,
         sourceIndex
     ) {
-        // create a body with the specified number of WORK parts and one MOVE part per non-MOVE part
-        let body = [WORK, WORK, CARRY, MOVE, MOVE, MOVE]
+        // define body parts for long distance harvesting
+        let body = [WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
 
         // create creep with the created body
         return this.createCreep(body, undefined, {
