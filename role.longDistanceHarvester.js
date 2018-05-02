@@ -1,14 +1,9 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
+const { creepWorking } = require("helpers")
+
 module.exports = {
     run: creep => {
-        if (creep.memory.working == true && creep.carry.energy == 0) {
-            creep.memory.working = false
-        } else if (
-            creep.memory.working == false &&
-            creep.carry.energy == creep.carryCapacity
-        ) {
-            creep.memory.working = true
-        }
+        creepWorking(creep)
 
         if (creep.memory.working == true) {
             // if in home room

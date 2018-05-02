@@ -43,14 +43,14 @@ module.exports.loop = function() {
     })
 
     for (let tower of towers) {
-        tower = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
+        let target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
         target != undefined && tower.attack(target)
     }
 
     // goal: set the minimum numbers of creeps required for each role
-    const minimumNoOfHarvesters = 1
+    const minimumNoOfHarvesters = 2
     const minimumNoOfUpgraders = 1
-    const minimumNoOfBuilders = 2
+    const minimumNoOfBuilders = 1
     const minimumNoOfRepairers = 1
     // const minimumNoOfLongDistanceHarvesters = 1
     const minimumNoOfWallRepairers = 1
@@ -86,7 +86,7 @@ module.exports.loop = function() {
         name = Spawn1.createCustomCreep(energyCapacity, "wallRepairer")
     } else {
         // default case: try to spawn upgraders with less energy
-        name = Spawn1.createCustomCreep(energyCapacity, "wallRepairer")
+        name = Spawn1.createCustomCreep(energyCapacity, "harvester")
     }
 
     // print name to console if spawning was a success
