@@ -21,4 +21,25 @@ function harvestEnergy(creep) {
     creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
 }
 
-module.exports = { handleWorkingState, harvestEnergy }
+function transferHarvestedEnergy(creep) {
+    // find the closest structure that can store enery
+    const ENERGY_STRUCTURES = [
+        STRUCTURE_SPAWN,
+        STRUCTURE_EXTENSION,
+        STRUCTURE_TOWER,
+        STRUCTURE_CONTAINER,
+        STRUCTURE_STORAGE
+    ]
+    let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+        filter: s =>
+            ENERGY_STRUCTURES.includes(s.structureType) &&
+            s.energy < s.energyCapacity
+    })
+
+    if (structure != undefined) {
+        creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE &&
+            creep.moveTo(structure)
+    }
+}
+
+module.exports = { handleWorkingState, harvestEnergy, transferHarvestedEnergy }

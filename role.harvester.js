@@ -1,26 +1,17 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const { handleWorkingState, harvestEnergy } = require("helpers")
+const {
+    handleWorkingState,
+    harvestEnergy,
+    transferHarvestedEnergy
+} = require("helpers")
 
 module.exports = {
     run: creep => {
+        // check if the creep is in working state
         handleWorkingState(creep)
-
-        // if creep is supposed to transfer energy to the spawn
-        if (creep.memory.working == true) {
-            // find closest spawn or extension which is not full
-            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: s =>
-                    (s.structureType == STRUCTURE_SPAWN ||
-                        s.structureType == STRUCTURE_EXTENSION ||
-                        s.structureType == STRUCTURE_TOWER) &&
-                    s.energy < s.energyCapacity
-            })
-
-            // if we found one, try to transfer energy
-            if (structure != undefined) {
-                creep.transfer(structure, RESOURCE_ENERGY) ==
-                    ERR_NOT_IN_RANGE && creep.moveTo(structure)
-            }
-        } else harvestEnergy(creep)
+        // assign activity based on that
+        creep.memory.working == true
+            ? transferHarvestedEnergy(creep)
+            : harvestEnergy(creep)
     }
 }
