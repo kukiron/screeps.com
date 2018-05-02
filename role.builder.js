@@ -21,16 +21,13 @@ module.exports = {
             let constructionSite = creep.pos.findClosestByPath(
                 FIND_CONSTRUCTION_SITES
             )
-            // if one is found try to build
-            if (constructionSite != undefined) {
-                creep.build(constructionSite) == ERR_NOT_IN_RANGE &&
-                    creep.moveTo(constructionSite)
-            } else {
-                // and if not found, go upgrade the controller
-                roleUpgrader.run(creep)
-            }
+
+            constructionSite != undefined
+                ? creep.build(constructionSite) == ERR_NOT_IN_RANGE &&
+                  creep.moveTo(constructionSite)
+                : roleUpgrader.run(creep)
         } else {
-            let source = creep.room.find(FIND_SOURCES)[0]
+            let source = creep.room.find(FIND_SOURCES)[1]
             creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
         }
     }

@@ -4,7 +4,8 @@ const roleHarvester = require("role.harvester")
 const roleUpgrader = require("role.upgrader")
 const roleBuilder = require("role.builder")
 const roleRepairer = require("role.repairer")
-const roleLongDistanceHarvester = require("role.longDistanceHarvester")
+const roleWallRepairer = require("role.wallRepairer")
+// const roleLongDistanceHarvester = require("role.longDistanceHarvester")
 
 // Rooms for harvesting
 const HOME = "E13N45"
@@ -33,22 +34,34 @@ module.exports.loop = function() {
         role == "upgrader" && roleUpgrader.run(creep)
         role == "builder" && roleBuilder.run(creep)
         role == "repairer" && roleRepairer.run(creep)
-        role == "longDistanceHarvester" && roleLongDistanceHarvester.run(creep)
+        // role == "longDistanceHarvester" && roleLongDistanceHarvester.run(creep)
+        role == "wallRepairer" && roleWallRepairer.run(creep)
+    }
+
+    let towers = Game.rooms[HOME].find(FIND_STRUCTURES, {
+        filter: s => s.structureType == STRUCTURE_TOWER
+    })
+
+    for (let tower of towers) {
+        tower = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
+        target != undefined && tower.attack(target)
     }
 
     // goal: set the minimum numbers of creeps required for each role
-    const minimumNoOfHarvesters = 2
+    const minimumNoOfHarvesters = 1
     const minimumNoOfUpgraders = 1
-    const minimumNoOfBuilders = 1
+    const minimumNoOfBuilders = 2
     const minimumNoOfRepairers = 1
-    const minimumNoOfLongDistanceHarvesters = 1
+    // const minimumNoOfLongDistanceHarvesters = 1
+    const minimumNoOfWallRepairers = 1
 
     // currently active creeps for each role
     let currentHarvesters = countCreeps("harvester")
     let currentUpgraders = countCreeps("upgrader")
     let currentBuilders = countCreeps("builder")
     let currentRepairers = countCreeps("repairer")
-    let currentLongDistanceHarvesters = countCreeps("longDistanceHarvester")
+    // let currentLongDistanceHarvesters = countCreeps("longDistanceHarvester")
+    let currentWallRepairers = countCreeps("wallRepairer")
 
     let energyCapacity = Spawn1.room.energyCapacityAvailable
     let energyAvailable = Spawn1.room.energyAvailable
@@ -67,25 +80,13 @@ module.exports.loop = function() {
         name = Spawn1.createCustomCreep(energyCapacity, "builder")
     } else if (currentRepairers < minimumNoOfRepairers) {
         name = Spawn1.createCustomCreep(energyCapacity, "repairer")
-    } else if (
-        currentLongDistanceHarvesters < minimumNoOfLongDistanceHarvesters
-    ) {
-        name = Spawn1.createLongDistanceHarvester(
-            energyCapacity,
-            3,
-            HOME,
-            TARGET,
-            0
-        )
+        // } else if (currentLongDistanceHarvesters < minimumNoOfLongDistanceHarvesters) {
+        // name = Spawn1.createLongDistanceHarvester(energyCapacity, 3, HOME, TARGET, 0)
+    } else if (currentWallRepairers < minimumNoOfWallRepairers) {
+        name = Spawn1.createCustomCreep(energyCapacity, "wallRepairer")
     } else {
         // default case: try to spawn upgraders with less energy
-        name = Spawn1.createLongDistanceHarvester(
-            energyCapacity,
-            3,
-            HOME,
-            TARGET,
-            0
-        )
+        name = Spawn1.createCustomCreep(energyCapacity, "wallRepairer")
     }
 
     // print name to console if spawning was a success

@@ -31,7 +31,7 @@ module.exports = {
             }
         } else {
             // if creep is supposed to harvest energy from source find closest energy source
-            let source = creep.room.find(FIND_SOURCES)[1]
+            let source = creep.room.find(FIND_SOURCES)[0]
             // try to harvest energy, if the source is not in range move towards the source
             creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
         }
