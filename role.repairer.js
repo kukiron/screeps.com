@@ -1,10 +1,9 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
 const roleBuilder = require("role.builder")
-const { handleWorkingState, harvestEnergy } = require("helpers")
 
 module.exports = {
-    run: creep => {
-        handleWorkingState(creep)
+    run: function(creep) {
+        creep.handleWorkingState()
 
         if (creep.memory.working == true) {
             let structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
@@ -16,6 +15,6 @@ module.exports = {
                 ? creep.repair(structure) == ERR_NOT_IN_RANGE &&
                   creep.moveTo(structure)
                 : roleBuilder.run(creep)
-        } else harvestEnergy(creep)
+        } else creep.getEnergy(true, true)
     }
 }

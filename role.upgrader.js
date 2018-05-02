@@ -1,9 +1,7 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const { handleWorkingState, harvestEnergy } = require("helpers")
-
 module.exports = {
-    run: creep => {
-        handleWorkingState(creep)
+    run: function(creep) {
+        creep.handleWorkingState()
 
         // if creep is supposed to transfer energy to the controller
         if (creep.memory.working == true) {
@@ -11,6 +9,6 @@ module.exports = {
             // if (creep.transfer(creep.room.controller, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
             creep.upgradeController(creep.room.controller) ==
                 ERR_NOT_IN_RANGE && creep.moveTo(creep.room.controller)
-        } else harvestEnergy(creep)
+        } else creep.getEnergy(true, true)
     }
 }

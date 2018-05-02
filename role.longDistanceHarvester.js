@@ -1,14 +1,12 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const { handleWorkingState, transferHarvestedEnergy } = require("helpers")
-
 module.exports = {
-    run: creep => {
-        handleWorkingState(creep)
+    run: function(creep) {
+        creep.handleWorkingState()
 
         if (creep.memory.working == true) {
             // if in home room
             if (creep.room.name == creep.memory.home) {
-                transferHarvestedEnergy(creep)
+                creep.transferHarvestedEnergy()
             } else {
                 // if not, find exit to home room
                 let exit = creep.room.findExitTo(creep.memory.home)

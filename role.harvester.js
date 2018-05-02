@@ -1,17 +1,11 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const {
-    handleWorkingState,
-    harvestEnergy,
-    transferHarvestedEnergy
-} = require("helpers")
-
 module.exports = {
-    run: creep => {
+    run: function(creep) {
         // check if the creep is in working state
-        handleWorkingState(creep)
+        creep.handleWorkingState()
         // assign activity based on that
         creep.memory.working == true
-            ? transferHarvestedEnergy(creep)
-            : harvestEnergy(creep)
+            ? creep.transferHarvestedEnergy()
+            : creep.getEnergy(false, true)
     }
 }
