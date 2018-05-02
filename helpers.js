@@ -1,5 +1,5 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-function creepWorking(creep) {
+function handleWorkingState(creep) {
     // switch state
     // if creep is bringing energy to the spawn but has no energy left
     if (creep.memory.working == true && creep.carry.energy == 0) {
@@ -21,4 +21,4 @@ function harvestEnergy(creep) {
     creep.harvest(source) == ERR_NOT_IN_RANGE && creep.moveTo(source)
 }
 
-module.exports = { creepWorking, harvestEnergy }
+module.exports = { handleWorkingState, harvestEnergy }

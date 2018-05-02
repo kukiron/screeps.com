@@ -1,9 +1,9 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const { creepWorking } = require("helpers")
+const { handleWorkingState } = require("helpers")
 
 module.exports = {
     run: creep => {
-        creepWorking(creep)
+        handleWorkingState(creep)
 
         if (creep.memory.working == true) {
             // if in home room
@@ -13,11 +13,11 @@ module.exports = {
                     {
                         filter: s =>
                             (s.structureType == STRUCTURE_SPAWN ||
-                                s.structureType == STRUCTURE_EXTENSION) &&
+                                s.structureType == STRUCTURE_EXTENSION ||
+                                s.structureType == STRUCTURE_TOWER) &&
                             s.energy < s.energyCapacity
                     }
                 )
-
                 if (structure != undefined) {
                     creep.transfer(structure, RESOURCE_ENERGY) ==
                         ERR_NOT_IN_RANGE && creep.moveTo(structure)

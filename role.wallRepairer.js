@@ -1,10 +1,10 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
 const roleBuilder = require("role.builder")
-const { creepWorking, harvestEnergy } = require("helpers")
+const { handleWorkingState, harvestEnergy } = require("helpers")
 
 module.exports = {
     run: creep => {
-        creepWorking(creep)
+        handleWorkingState(creep)
 
         if (creep.memory.working == true) {
             let walls = creep.room.find(FIND_STRUCTURES, {

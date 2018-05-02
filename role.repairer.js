@@ -1,10 +1,10 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
 const roleBuilder = require("role.builder")
-const { creepWorking, harvestEnergy } = require("helpers")
+const { handleWorkingState, harvestEnergy } = require("helpers")
 
 module.exports = {
-    run: function(creep) {
-        creepWorking(creep)
+    run: creep => {
+        handleWorkingState(creep)
 
         if (creep.memory.working == true) {
             let structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {

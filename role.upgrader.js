@@ -1,9 +1,9 @@
 /* eslint indent: [ "error", 4 ], no-undef: 0 */
-const { creepWorking, harvestEnergy } = require("helpers")
+const { handleWorkingState, harvestEnergy } = require("helpers")
 
 module.exports = {
     run: creep => {
-        creepWorking(creep)
+        handleWorkingState(creep)
 
         // if creep is supposed to transfer energy to the controller
         if (creep.memory.working == true) {

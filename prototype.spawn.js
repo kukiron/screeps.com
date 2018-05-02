@@ -17,7 +17,7 @@ module.exports = function() {
         target,
         sourceIndex
     ) {
-        let body = [WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
+        const body = [WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
 
         // create creep with the created body
         return this.createCreep(body, undefined, {
